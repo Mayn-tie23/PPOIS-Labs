@@ -21,7 +21,7 @@
     <ClCompile Include="Set.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Multiset.cpp">
+    <ClCompile Include="Polynomial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="Set.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Multiset.h">
+    <ClInclude Include="Polynomial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
