@@ -18,18 +18,18 @@
     <ClCompile Include="Lab1_set.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Set.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="set\Set.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Polynomial.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="polynomial\Polynomial.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Set.h">
+    <ClInclude Include="set\Set.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Polynomial.h">
+    <ClInclude Include="polynomial\Polynomial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

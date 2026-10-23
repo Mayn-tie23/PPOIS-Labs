@@ -124,12 +124,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Lab1_set.cpp" />
-    <ClCompile Include="Polynomial.cpp" />
-    <ClCompile Include="Set.cpp" />
+    <ClCompile Include="polynomial\Polynomial.cpp" />
+    <ClCompile Include="set\Set.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Polynomial.h" />
-    <ClInclude Include="Set.h" />
+    <ClInclude Include="polynomial\Polynomial.h" />
+    <ClInclude Include="set\Set.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
