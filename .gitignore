@@ -437,4 +437,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+# Build files
+build/
+
+# Code coverage reports
+coverage/
+polynomial_coverage/
 
