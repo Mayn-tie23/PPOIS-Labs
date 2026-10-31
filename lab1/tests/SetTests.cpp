@@ -47,6 +47,15 @@ int main() {
     otherSet.add(30);
     assert(mySet != otherSet);
     assert(!(mySet == otherSet));
+// Test equality with different insertion order
+Set firstSet;
+firstSet.add(10);
+firstSet.add(20);
+Set secondSet;
+secondSet.add(20);
+secondSet.add(10);
+
+assert(firstSet == secondSet);
 
     // Test copy constructor
     Set copiedSet(mySet);
@@ -57,6 +66,22 @@ int main() {
     assignedSet = mySet;
     assert(assignedSet == mySet);
 
+// Test copying an empty Set
+Set emptySet;
+Set emptyCopy(emptySet);
+assert(emptyCopy.isEmpty());
+assert(emptyCopy == emptySet);
+
+// Test assigning an empty Set
+Set emptySource;
+Set filledSet;
+filledSet.add(50);
+
+filledSet = emptySource;
+
+assert(filledSet.isEmpty());
+assert(filledSet.size() == 0);
+
     // Test clearing the Set
     mySet.clear();
     assert(mySet.isEmpty());
@@ -64,7 +89,37 @@ int main() {
 
     // Test display
     mySet.display();
+    // Test union
+    firstSet.clear();
+    secondSet.clear();
+    firstSet.add(10);
+    firstSet.add(20);
 
+    secondSet.add(20);
+    secondSet.add(30);
+
+    Set unionResult = firstSet.setUnion(secondSet);
+
+    assert(unionResult.size() == 3);
+    assert(unionResult.contains(10));
+    assert(unionResult.contains(20));
+    assert(unionResult.contains(30));
+    // Test intersection
+    Set intersectionResult = firstSet.intersection(secondSet);
+
+    assert(intersectionResult.size() == 1);
+    assert(intersectionResult.contains(20));
+    assert(!intersectionResult.contains(10));
+    assert(!intersectionResult.contains(30));
+    // Test difference
+    Set differenceResult = firstSet.difference(secondSet);
+
+    assert(differenceResult.size() == 1);
+    assert(differenceResult.contains(10));
+    assert(!differenceResult.contains(20));
+    assert(!differenceResult.contains(30));
+    // Test displaying a non-empty Set
+    firstSet.display();
     std::cout << "All Set tests passed!\n";
     return 0;
 }
