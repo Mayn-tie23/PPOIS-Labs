@@ -270,6 +270,5 @@ int main() {
             std::cout << "Invalid choice\n";
         }
         } while (choice != 0);
-
     return 0;
 }
