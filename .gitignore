@@ -444,3 +444,9 @@ build/
 coverage/
 polynomial_coverage/
 
+# Generated Doxygen documentation
+documentation/
+OUTPUT_DIRECTORY/
+
+# Doxygen backup files
+Doxyfile.bak
