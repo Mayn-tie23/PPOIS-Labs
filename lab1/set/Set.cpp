@@ -1,6 +1,8 @@
 #include "Set.h"
 #include <iostream>
 #include <algorithm>
+#include <ostream>
+#include <istream>
 
 Set::Set() {
 
@@ -95,4 +97,32 @@ bool Set::isEmpty() const {
 }
 	int Set::getElement(int index) const {
 		return elements.at(index);
+	}
+	std::ostream& operator<<(std::ostream& out, const Set& set) {
+		out << set.size() << " ";
+
+		for (int i = 0; i < set.size(); i++) {
+			out << set.getElement(i) << " ";
+		}
+
+		return out;
+	}
+	std::istream& operator>>(std::istream& in, Set& set) {
+		int count;
+		if (!(in >> count)) return in;
+
+		if (count < 0) {
+			in.setstate(std::ios::failbit);
+			return in;
+		}
+
+		Set result;
+		for (int i = 0; i < count; i++) {
+			int value;
+			if (!(in >> value)) return in;
+			result.add(value);
+		}
+
+		set = result;
+		return in;
 	}

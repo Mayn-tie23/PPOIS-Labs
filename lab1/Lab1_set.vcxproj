@@ -123,7 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Lab1_set.cpp" />
+    <ClCompile Include="Lab1_UI.cpp" />
     <ClCompile Include="polynomial\Polynomial.cpp" />
     <ClCompile Include="set\Set.cpp" />
   </ItemGroup>
