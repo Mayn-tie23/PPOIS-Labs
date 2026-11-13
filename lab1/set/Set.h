@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include<iosfwd>
 
 class Set {
 private:
@@ -24,5 +25,6 @@ public:
 	bool isEmpty() const;
 	int getElement(int index) const;
 	~Set();
-
 };
+std::ostream& operator<<(std::ostream& out, const Set& set);
+std::istream& operator>>(std::istream& in, Set& set);

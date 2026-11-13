@@ -2,6 +2,8 @@
 #include<iostream>
 #include<algorithm>
 #include<cmath>
+#include <ostream>
+#include <istream>
 
 Polynomial::Polynomial() {
 }
@@ -128,4 +130,37 @@ void Polynomial::clear() {
 }
 bool Polynomial::isEmpty()const {
 	return degree() == -1;
+}
+std::ostream& operator<<(std::ostream& out, const Polynomial& polynomial) {
+	int count = polynomial.isEmpty() ? 0 : polynomial.degree() + 1;
+
+	out << count;
+
+	for (int i = 0; i < count; i++) {
+		out << " " << polynomial.getCoefficient(i);
+	}
+
+	return out;
+}
+
+std::istream& operator>>(std::istream& in, Polynomial& polynomial) {
+	int count;
+	if (!(in >> count)) return in;
+
+	if (count < 0) {
+		in.setstate(std::ios::failbit);
+		return in;
+	}
+
+	std::vector<double> values;
+
+	for (int i = 0; i < count; i++) {
+		double value;
+		if (!(in >> value)) return in;
+		values.push_back(value);
+	}
+
+	Polynomial result(values);
+	polynomial = result;
+	return in;
 }

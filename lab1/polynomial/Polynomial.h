@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iosfwd>
 
 class Polynomial {
 private:
@@ -23,4 +24,6 @@ public:
 	void clear();
 	bool isEmpty() const;
 };
+std::ostream& operator<<(std::ostream& out, const Polynomial& polynomial);
+std::istream& operator>>(std::istream& in, Polynomial& polynomial);
 

@@ -2,7 +2,7 @@
 #include "../set/Set.h"
 #include <cassert>
 #include <iostream>
-
+#include <sstream>
 int main() {
     Set mySet;
 
@@ -120,6 +120,18 @@ assert(filledSet.size() == 0);
     assert(!differenceResult.contains(30));
     // Test displaying a non-empty Set
     firstSet.display();
+    // Test writing and reading a Set
+    Set originalSet;
+    originalSet.add(10);
+    originalSet.add(20);
+
+    std::stringstream stream;
+    stream << originalSet;
+
+    Set loadedSet;
+    stream >> loadedSet;
+
+    assert(loadedSet == originalSet);
     std::cout << "All Set tests passed!\n";
     return 0;
 }

@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 int main() {
     Polynomial p;
@@ -42,6 +43,16 @@ int main() {
     p.display();
     p.clear();
     assert(p.isEmpty());
+    // Test Polynomial stream input and output
+    Polynomial original({ 3.0, 2.0, 5.0 });
+
+    std::stringstream stream;
+    stream << original;
+
+    Polynomial loaded;
+    stream >> loaded;
+
+    assert(loaded == original);
 
     std::cout << "All Polynomial tests passed!\n";
     return 0;
