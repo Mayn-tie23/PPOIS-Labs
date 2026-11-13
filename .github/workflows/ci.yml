@@ -23,3 +23,39 @@ jobs:
 
       - name: Run unit tests
         run: ctest --test-dir lab1/build -C Debug --output-on-failure
+
+      - name: Install OpenCppCoverage
+        run: choco install opencppcoverage -y --no-progress
+
+      - name: Check Set and Polynomial coverage
+        shell: pwsh
+        run: |
+          $tool = "C:\Program Files\OpenCppCoverage\OpenCppCoverage.exe"
+
+          if (!(Test-Path $tool)) {
+            throw "OpenCppCoverage executable not found"
+          }
+
+          foreach ($item in @(
+            @{ Name = "Set"; Source = "Set.cpp"; Test = "SetTests" },
+            @{ Name = "Polynomial"; Source = "Polynomial.cpp"; Test = "PolynomialTests" }
+          )) {
+            $report = "lab1/build/$($item.Name).xml"
+            $exe = "lab1/build/Debug/$($item.Test).exe"
+
+            & $tool --sources $item.Source --export_type "cobertura:$report" -- $exe
+
+            if ($LASTEXITCODE -ne 0) {
+              throw "Coverage execution failed for $($item.Name)"
+            }
+
+            [xml]$xml = Get-Content $report
+            $rate = [double]$xml.coverage.'line-rate'
+
+            Write-Host "$($item.Name) coverage: $($rate * 100)%"
+
+            if ($rate -le 0.90) {
+              throw "$($item.Name) coverage must exceed 90%"
+            }
+          }
+
