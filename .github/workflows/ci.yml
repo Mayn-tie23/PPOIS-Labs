@@ -3,7 +3,7 @@ name: PPOIS Lab 1 CI
 
 on:
   push:
-    branches: [main, feature/lab1]
+    branches: [main, feature/lab1, feature/lab1-final-checks]
   pull_request:
     branches: [main]
 
