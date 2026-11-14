@@ -1,0 +1,12 @@
+
+# Build files
+build/
+coverage/
+polynomial_coverage/
+documentation/
+OUTPUT_DIRECTORY/
+
+# Visual Studio generated files
+*.sln
+*.vcxproj
+*.vcxproj.filters

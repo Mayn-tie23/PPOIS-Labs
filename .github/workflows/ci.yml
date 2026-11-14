@@ -3,7 +3,7 @@ name: PPOIS Lab 1 CI
 
 on:
   push:
-    branches: [main, feature/lab1]
+    branches: [main, feature/lab1, feature/lab1-final-checks]
   pull_request:
     branches: [main]
 
@@ -23,3 +23,56 @@ jobs:
 
       - name: Run unit tests
         run: ctest --test-dir lab1/build -C Debug --output-on-failure
+
+      - name: Install OpenCppCoverage
+        run: choco install opencppcoverage -y --no-progress
+
+      - name: Check Set and Polynomial coverage
+        shell: pwsh
+        run: |
+          $tool = "C:\Program Files\OpenCppCoverage\OpenCppCoverage.exe"
+
+          if (!(Test-Path $tool)) {
+            throw "OpenCppCoverage executable not found"
+          }
+
+          foreach ($item in @(
+            @{ Name = "Set"; Source = "Set.cpp"; Test = "SetTests" },
+            @{ Name = "Polynomial"; Source = "Polynomial.cpp"; Test = "PolynomialTests" }
+          )) {
+            $report = "lab1/build/$($item.Name).xml"
+            $exe = "lab1/build/Debug/$($item.Test).exe"
+
+            & $tool --sources $item.Source --export_type "cobertura:$report" -- $exe
+
+            if ($LASTEXITCODE -ne 0) {
+              throw "Coverage execution failed for $($item.Name)"
+            }
+
+            [xml]$xml = Get-Content $report
+            $rate = [double]$xml.coverage.'line-rate'
+
+            Write-Host "$($item.Name) coverage: $($rate * 100)%"
+
+            if ($rate -le 0.90) {
+              throw "$($item.Name) coverage must exceed 90%"
+            }
+          }
+
+      - name: Install Cppcheck
+        run: choco install cppcheck -y --no-progress
+
+      - name: Run Cppcheck static analysis
+        shell: pwsh
+        run: |
+          $tool = "C:\Program Files\Cppcheck\cppcheck.exe"
+
+          if (!(Test-Path $tool)) {
+            throw "Cppcheck executable not found"
+          }
+
+          & $tool --enable=warning,style,performance --error-exitcode=1 --suppress=missingIncludeSystem --suppress=useStlAlgorithm --std=c++17 lab1/set lab1/polynomial lab1/tests lab1/Lab1_UI.cpp
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Cppcheck found problems"
+          }
