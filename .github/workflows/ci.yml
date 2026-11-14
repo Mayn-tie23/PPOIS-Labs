@@ -71,11 +71,8 @@ jobs:
             throw "Cppcheck executable not found"
           }
 
-        
-& $tool --enable=warning,style,performance --error-exitcode=1 --suppress=missingIncludeSystem --suppress=useStlAlgorithm --std=c++17 lab1/set lab1/polynomial lab1/tests lab1/Lab1_UI.cpp
- 
+          & $tool --enable=warning,style,performance --error-exitcode=1 --suppress=missingIncludeSystem --suppress=useStlAlgorithm --std=c++17 lab1/set lab1/polynomial lab1/tests lab1/Lab1_UI.cpp
 
           if ($LASTEXITCODE -ne 0) {
             throw "Cppcheck found problems"
           }
-
