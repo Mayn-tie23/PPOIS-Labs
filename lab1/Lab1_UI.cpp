@@ -189,7 +189,6 @@ int main() {
                 if (polyChoice == 6 || polyChoice == 9) {
                     Polynomial otherPolynomial;
                     int highestDegree;
-                    double value;
 
                     std::cout << "Enter degree of second polynomial: ";
                     std::cin >> highestDegree;
@@ -199,6 +198,7 @@ int main() {
                     }
                     else {
                         for (int i = 0; i <= highestDegree; i++) {
+                            double value;
                             std::cout << "Enter coefficient for x^" << i << ": ";
                             std::cin >> value;
                             otherPolynomial.setCoefficient(i, value);
@@ -221,7 +221,6 @@ int main() {
                 if (polyChoice == 7 || polyChoice == 8) {
                     Polynomial otherPolynomial;
                     int highestDegree;
-                    double value;
 
                     std::cout << "Enter degree of second polynomial: ";
                     std::cin >> highestDegree;
@@ -231,6 +230,7 @@ int main() {
                     }
                     else {
                         for (int i = 0; i <= highestDegree; i++) {
+                            double value;
                             std::cout << "Enter coefficient for x^" << i << ": ";
                             std::cin >> value;
                             otherPolynomial.setCoefficient(i, value);
