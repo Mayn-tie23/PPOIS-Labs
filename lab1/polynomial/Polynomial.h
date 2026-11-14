@@ -24,7 +24,7 @@ public:
      * @brief Creates a polynomial from coefficients.
      * @param coeffs Vector containing polynomial coefficients.
      */
-    Polynomial(const std::vector<double>& coeffs);
+  explicit  Polynomial(const std::vector<double>& coeffs);
 
     /**
      * @brief Creates a copy of another polynomial.

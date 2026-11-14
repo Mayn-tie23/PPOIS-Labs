@@ -7,11 +7,11 @@
 
 Polynomial::Polynomial() {
 }
-Polynomial::Polynomial(const std::vector<double>& coeffs) {
-	coefficients = coeffs;
+Polynomial::Polynomial(const std::vector<double>& coeffs) 
+	:coefficients (coeffs) {
 }
-Polynomial::Polynomial(const Polynomial& other) {
-	coefficients = other.coefficients;
+Polynomial::Polynomial(const Polynomial& other) 
+	:coefficients (other.coefficients){
 }
 Polynomial::~Polynomial() {
 }

@@ -80,8 +80,8 @@ bool Set::operator==(const Set& other)const {
 bool Set::operator!=(const Set& other) const {
 	return!(*this == other);
 }
-Set::Set(const Set& other) {
-	elements = other.elements;
+Set::Set(const Set& other)
+	:elements (other.elements){
 }
 Set& Set::operator=(const Set& other){
 	if (this != &other) {
