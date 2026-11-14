@@ -93,7 +93,7 @@ int main() {
                 }
                 if (setChoice == 9) {
                     Set otherSet;
-                    int count, value;
+                    int count;
                     std::cout << "How many elements in the second Set?";
                     std::cin >> count;
                     if (count < 0) {
@@ -101,6 +101,7 @@ int main() {
                     }
                     else {
                         for (int i = 0;i < count; i++) {
+                            int value;
                             std::cout << "Enter elements:";
                             std::cin >> value;
                             otherSet.add(value);
