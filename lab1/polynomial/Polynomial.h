@@ -5,7 +5,7 @@
 #include <iosfwd>
 
 /**
- * @brief Represents a mathematical polynomial.
+ * @brief Represents a single-variable mathematical polynomial.
  *
  * Stores polynomial coefficients and supports
  * arithmetic operations, evaluation, and comparison.
@@ -24,7 +24,7 @@ public:
      * @brief Creates a polynomial from coefficients.
      * @param coeffs Vector containing polynomial coefficients.
      */
-    Polynomial(const std::vector<double>& coeffs);
+    explicit Polynomial(const std::vector<double>& coeffs);
 
     /**
      * @brief Creates a copy of another polynomial.
@@ -39,37 +39,51 @@ public:
 
     /**
      * @brief Assigns another polynomial to this polynomial.
-     * @param other Polynomial to copy from.
+     * @param other Polynomial to copy.
      * @return Reference to this polynomial.
      */
     Polynomial& operator=(const Polynomial& other);
 
     /**
-     * @brief Sets the coefficient of a specified degree.
+     * @brief Sets a coefficient.
      * @param degree Degree of the term.
      * @param value New coefficient value.
      */
     void setCoefficient(int degree, double value);
 
     /**
-     * @brief Returns the coefficient of a specified degree.
+     * @brief Gets a coefficient.
      * @param degree Degree of the term.
      * @return Coefficient value.
      */
     double getCoefficient(int degree) const;
 
     /**
-     * @brief Returns the degree of the polynomial.
-     * @return Degree of the polynomial.
+     * @brief Returns the polynomial degree.
+     * @return Highest degree with a nonzero coefficient.
      */
     int degree() const;
 
     /**
-     * @brief Evaluates the polynomial at a given value.
-     * @param x Value at which to evaluate.
-     * @return Result of polynomial evaluation.
+     * @brief Evaluates the polynomial at x.
+     * @param x Value to evaluate.
+     * @return Polynomial value.
      */
     double evaluate(double x) const;
+
+    /**
+     * @brief Retrieves a coefficient using indexing.
+     * @param termDegree Degree of the term.
+     * @return Coefficient value.
+     */
+    double operator[](int termDegree) const;
+
+    /**
+     * @brief Evaluates the polynomial using function-call syntax.
+     * @param x Value to evaluate.
+     * @return Polynomial value.
+     */
+    double operator()(double x) const;
 
     /**
      * @brief Displays the polynomial.
@@ -77,25 +91,89 @@ public:
     void display() const;
 
     /**
-     * @brief Adds another polynomial to this polynomial.
+     * @brief Adds another polynomial.
      * @param other Polynomial to add.
-     * @return Resulting polynomial.
+     * @return Sum.
      */
     Polynomial add(const Polynomial& other) const;
 
     /**
-     * @brief Subtracts another polynomial from this polynomial.
+     * @brief Subtracts another polynomial.
      * @param other Polynomial to subtract.
-     * @return Resulting polynomial.
+     * @return Difference.
      */
     Polynomial subtract(const Polynomial& other) const;
 
     /**
-     * @brief Multiplies this polynomial by another polynomial.
-     * @param other Polynomial to multiply by.
-     * @return Resulting polynomial.
+     * @brief Multiplies by another polynomial.
+     * @param other Polynomial to multiply.
+     * @return Product.
      */
     Polynomial multiply(const Polynomial& other) const;
+
+    /**
+     * @brief Divides by another polynomial.
+     * @param other Divisor polynomial.
+     * @return Quotient.
+     * @throws std::invalid_argument If the divisor is zero.
+     */
+    Polynomial divide(const Polynomial& other) const;
+
+    /**
+     * @brief Adds two polynomials.
+     * @param other Polynomial to add.
+     * @return Sum.
+     */
+    Polynomial operator+(const Polynomial& other) const;
+
+    /**
+     * @brief Subtracts two polynomials.
+     * @param other Polynomial to subtract.
+     * @return Difference.
+     */
+    Polynomial operator-(const Polynomial& other) const;
+
+    /**
+     * @brief Multiplies two polynomials.
+     * @param other Polynomial to multiply.
+     * @return Product.
+     */
+    Polynomial operator*(const Polynomial& other) const;
+
+    /**
+     * @brief Divides two polynomials.
+     * @param other Divisor polynomial.
+     * @return Quotient.
+     */
+    Polynomial operator/(const Polynomial& other) const;
+
+    /**
+     * @brief Adds another polynomial to this polynomial.
+     * @param other Polynomial to add.
+     * @return Reference to this polynomial.
+     */
+    Polynomial& operator+=(const Polynomial& other);
+
+    /**
+     * @brief Subtracts another polynomial from this polynomial.
+     * @param other Polynomial to subtract.
+     * @return Reference to this polynomial.
+     */
+    Polynomial& operator-=(const Polynomial& other);
+
+    /**
+     * @brief Multiplies this polynomial by another.
+     * @param other Polynomial to multiply.
+     * @return Reference to this polynomial.
+     */
+    Polynomial& operator*=(const Polynomial& other);
+
+    /**
+     * @brief Divides this polynomial by another.
+     * @param other Divisor polynomial.
+     * @return Reference to this polynomial.
+     */
+    Polynomial& operator/=(const Polynomial& other);
 
     /**
      * @brief Checks whether two polynomials are equal.
@@ -112,7 +190,7 @@ public:
     bool operator!=(const Polynomial& other) const;
 
     /**
-     * @brief Clears the polynomial coefficients.
+     * @brief Removes all coefficients.
      */
     void clear();
 
@@ -140,3 +218,4 @@ std::ostream& operator<<(std::ostream& out,
  */
 std::istream& operator>>(std::istream& in,
     Polynomial& polynomial);
+

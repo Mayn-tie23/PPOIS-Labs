@@ -450,3 +450,7 @@ OUTPUT_DIRECTORY/
 
 # Doxygen backup files
 Doxyfile.bak
+# Visual Studio project files
+*.sln
+*.vcxproj
+*.vcxproj.filters

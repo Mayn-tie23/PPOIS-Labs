@@ -93,7 +93,7 @@ int main() {
                 }
                 if (setChoice == 9) {
                     Set otherSet;
-                    int count, value;
+                    int count;
                     std::cout << "How many elements in the second Set?";
                     std::cin >> count;
                     if (count < 0) {
@@ -101,6 +101,7 @@ int main() {
                     }
                     else {
                         for (int i = 0;i < count; i++) {
+                            int value;
                             std::cout << "Enter elements:";
                             std::cin >> value;
                             otherSet.add(value);
@@ -189,7 +190,6 @@ int main() {
                 if (polyChoice == 6 || polyChoice == 9) {
                     Polynomial otherPolynomial;
                     int highestDegree;
-                    double value;
 
                     std::cout << "Enter degree of second polynomial: ";
                     std::cin >> highestDegree;
@@ -199,6 +199,7 @@ int main() {
                     }
                     else {
                         for (int i = 0; i <= highestDegree; i++) {
+                            double value;
                             std::cout << "Enter coefficient for x^" << i << ": ";
                             std::cin >> value;
                             otherPolynomial.setCoefficient(i, value);
@@ -221,7 +222,6 @@ int main() {
                 if (polyChoice == 7 || polyChoice == 8) {
                     Polynomial otherPolynomial;
                     int highestDegree;
-                    double value;
 
                     std::cout << "Enter degree of second polynomial: ";
                     std::cin >> highestDegree;
@@ -231,6 +231,7 @@ int main() {
                     }
                     else {
                         for (int i = 0; i <= highestDegree; i++) {
+                            double value;
                             std::cout << "Enter coefficient for x^" << i << ": ";
                             std::cin >> value;
                             otherPolynomial.setCoefficient(i, value);

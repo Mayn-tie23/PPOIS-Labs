@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-
+#include <stdexcept>
 int main() {
     Polynomial p;
 
@@ -55,5 +55,76 @@ int main() {
     assert(loaded == original);
 
     std::cout << "All Polynomial tests passed!\n";
+
+    // Test polynomial indexing and function-call operators
+    Polynomial operatorTest({ 3.0, 2.0, 5.0 });
+
+    assert(operatorTest[0] == 3.0);
+    assert(operatorTest[1] == 2.0);
+    assert(operatorTest[2] == 5.0);
+
+    assert(operatorTest(2.0) == 27.0);
+
+    // Test polynomial division
+    Polynomial dividend({ 2.0, 3.0, 1.0 });
+    Polynomial divisor({ 1.0, 1.0 });
+    Polynomial expectedQuotient({ 2.0, 1.0 });
+
+    assert(dividend.divide(divisor) == expectedQuotient);
+    assert((dividend / divisor) == expectedQuotient);
+
+    // Test compound division
+    Polynomial divisionResult = dividend;
+    divisionResult /= divisor;
+    assert(divisionResult == expectedQuotient);
+
+    // Test division by a higher-degree polynomial
+    Polynomial smaller({ 1.0 });
+    assert((smaller / divisor) == Polynomial({ 0.0 }));
+
+    // Test division by zero
+    bool exceptionCaught = false;
+
+    try {
+        Polynomial zeroPolynomial({ 0.0 });
+        Polynomial result = dividend / zeroPolynomial;
+        (void)result;
+    }
+    catch (const std::invalid_argument&) {
+        exceptionCaught = true;
+    }
+
+    assert(exceptionCaught);
+
+    // Test arithmetic operators
+    Polynomial arithmeticA({ 1.0, 2.0 });
+    Polynomial arithmeticB({ 3.0, 4.0 });
+
+    assert((arithmeticA + arithmeticB) ==
+        Polynomial({ 4.0, 6.0 }));
+
+    assert((arithmeticA - arithmeticB) ==
+        Polynomial({ -2.0, -2.0 }));
+
+    assert((arithmeticA * arithmeticB) ==
+        Polynomial({ 3.0, 10.0, 8.0 }));
+
+    // Test compound assignment operators
+    Polynomial compoundTest = arithmeticA;
+
+    compoundTest += arithmeticB;
+    assert(compoundTest == Polynomial({ 4.0, 6.0 }));
+
+    compoundTest = arithmeticA;
+    compoundTest -= arithmeticB;
+    assert(compoundTest == Polynomial({ -2.0, -2.0 }));
+
+    compoundTest = arithmeticA;
+    compoundTest *= arithmeticB;
+    assert(compoundTest == Polynomial({ 3.0, 10.0, 8.0 }));
+
+
+
     return 0;
 }
+

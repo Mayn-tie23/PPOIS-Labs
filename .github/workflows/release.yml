@@ -1,0 +1,42 @@
+
+name: PPOIS Lab 1 Release
+
+on:
+  push:
+    tags:
+      - 'lab1-v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: cmake -S lab1 -B lab1/build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build Release
+        run: cmake --build lab1/build --config Release
+
+      - name: Run Release tests
+        run: ctest --test-dir lab1/build -C Release --output-on-failure
+
+      - name: Package Lab 1
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force release-package
+          Copy-Item lab1/build/Release/Lab1.exe release-package/
+          Copy-Item README.md release-package/
+          Compress-Archive -Path release-package/* -DestinationPath Lab1-Windows-x64.zip
+
+      - name: Publish Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" "Lab1-Windows-x64.zip" --title "Lab 1 ${{ github.ref_name }}" --generate-notes
