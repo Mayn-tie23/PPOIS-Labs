@@ -4,6 +4,7 @@
 #include<cmath>
 #include <ostream>
 #include <istream>
+#include <stdexcept>
 
 Polynomial::Polynomial() {
 }
@@ -164,3 +165,81 @@ std::istream& operator>>(std::istream& in, Polynomial& polynomial) {
 	polynomial = result;
 	return in;
 }
+
+double Polynomial::operator[](int termDegree) const {
+	return getCoefficient(termDegree);
+}
+
+double Polynomial::operator()(double x) const {
+	return evaluate(x);
+}
+
+Polynomial Polynomial::operator+(const Polynomial& other) const {
+	return add(other);
+}
+
+Polynomial Polynomial::operator-(const Polynomial& other) const {
+	return subtract(other);
+}
+
+Polynomial Polynomial::operator*(const Polynomial& other) const {
+	return multiply(other);
+}
+
+Polynomial& Polynomial::operator+=(const Polynomial& other) {
+	*this = add(other);
+	return *this;
+}
+
+Polynomial& Polynomial::operator-=(const Polynomial& other) {
+	*this = subtract(other);
+	return *this;
+}
+
+Polynomial& Polynomial::operator*=(const Polynomial& other) {
+	*this = multiply(other);
+	return *this;
+}
+
+Polynomial Polynomial::divide(const Polynomial& other) const {
+	const int divisorDegree = other.degree();
+
+	if (divisorDegree < 0) {
+		throw std::invalid_argument("Cannot divide by zero polynomial");
+	}
+
+	const int dividendDegree = degree();
+
+	if (dividendDegree < divisorDegree) {
+		return Polynomial(std::vector<double>{0.0});
+	}
+
+	std::vector<double> remainderCoefficients = coefficients;
+	std::vector<double> quotientCoefficients(
+		dividendDegree - divisorDegree + 1, 0.0);
+
+	for (int shift = dividendDegree - divisorDegree; shift >= 0; --shift) {
+		const double factor =
+			remainderCoefficients[divisorDegree + shift] /
+			other.coefficients[divisorDegree];
+
+		quotientCoefficients[shift] = factor;
+
+		for (int index = 0; index <= divisorDegree; ++index) {
+			remainderCoefficients[index + shift] -=
+				factor * other.coefficients[index];
+		}
+	}
+
+	return Polynomial(quotientCoefficients);
+}
+
+Polynomial Polynomial::operator/(const Polynomial& other) const {
+	return divide(other);
+}
+
+Polynomial& Polynomial::operator/=(const Polynomial& other) {
+	*this = divide(other);
+	return *this;
+}
+
