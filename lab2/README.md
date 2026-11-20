@@ -33,9 +33,9 @@ Run the menu application:
 ## Verification status
 
 The original Visual Studio test run was reported as 30/30 passing.
-The **new CMake build, CI pipeline, static analysis, and coverage threshold
+The **new CMake build, CI pipeline, static analysis and coverage threshold
 have not yet been executed or verified**. Do not claim >90% coverage until
-the CI coverage report proves it.
+the CI coverage report proves it
 
 ## Before submission
 
