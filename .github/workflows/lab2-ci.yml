@@ -1,0 +1,78 @@
+
+name: PPOIS Lab 2 CI
+
+on:
+  push:
+    branches: [main, oceanarium, feature/lab2]
+    paths: ['lab2/**', '.github/workflows/lab2-ci.yml']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build-test-coverage:
+    runs-on: windows-2022
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S lab2 -B lab2/build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: cmake --build lab2/build --config Debug
+
+      - name: Test
+        run: ctest --test-dir lab2/build -C Debug --output-on-failure
+
+      - name: Install coverage tool
+        run: choco install opencppcoverage -y --no-progress
+
+      - name: Measure coverage
+        shell: pwsh
+        run: |
+          $tool = "C:\Program Files\OpenCppCoverage\OpenCppCoverage.exe"
+          $exe = "$PWD\lab2\build\Debug\OceanariumTests.exe"
+          $source = "$PWD\lab2\Oceanarium"
+          $reportPath = "$PWD\lab2\build\coverage.xml"
+
+          if (!(Test-Path $tool) -or !(Test-Path $exe)) {
+            throw "Coverage tool or test executable missing"
+          }
+
+          & $tool --sources $source --excluded_sources "googletest" --export_type "cobertura:$reportPath" -- $exe
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Coverage execution failed"
+          }
+
+          [xml]$report = Get-Content $reportPath
+          $rate = [double]$report.coverage.'line-rate'
+
+          Write-Host "Oceanarium line coverage: $($rate * 100)%"
+
+          if ($rate -le 0.90) {
+            throw "Coverage must exceed 90%"
+          }
+
+      - name: Static analysis
+        shell: pwsh
+        run: |
+          choco install cppcheck -y --no-progress
+          & "C:\Program Files\Cppcheck\cppcheck.exe" --enable=warning,performance --error-exitcode=1 --suppress=missingIncludeSystem --std=c++17 lab2/Oceanarium
+
+      - name: Upload executable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oceanarium-Windows-x64
+          path: lab2/build/Debug/OceanariumApp.exe
+
+      - name: Publish release asset
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" "lab2/build/Debug/OceanariumApp.exe" --clobber
